@@ -1,8 +1,13 @@
 #include <Arduino.h>
+#include <Servo.h>
 
-const int buttonPins[] = {2, 3, 4, 5, 6}; // Pins für die Buttons
+const int buttonPins[] = {A0, A1, A2, A3, A4}; // Pins für die Buttons
+const int servoPin [] = {3, 5, 9, 10, 11}; // Pin für den Servo
 const int numButtons = sizeof(buttonPins) / sizeof(int);
 int lastButtonStates[numButtons]; // Zustände der Buttons
+Servo servos [numButtons]; // Servo-Objekte
+int anglePressed = 0;
+int angleReleased = 90;
 
 void setup()
 {
@@ -10,7 +15,8 @@ void setup()
   for (int i = 0; i < numButtons; i++)
   {
     pinMode(buttonPins[i], INPUT_PULLUP);
-    lastButtonStates[i] = LOW; // Anfangszustand ist HIGH
+    lastButtonStates[i] = LOW; // Anfangszustand ist LOW
+    servos[i].attach(servoPin[i]);
   }
 }
 
@@ -26,15 +32,16 @@ void loop()
         Serial.print("Button ");
         Serial.print(i);
         Serial.println(" released");
+        servos[i].write(angleReleased);
       }
       else if (currentButtonState == LOW)
       {
         Serial.print("Button ");
         Serial.print(i);
         Serial.println(" pressed");
+        servos[i].write(anglePressed);
       }
       lastButtonStates[i] = currentButtonState;
     }
-    //delay(100); // debounce delay
   }
 }
