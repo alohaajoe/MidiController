@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-const int buttonPins[] = {A0, A1, A2, A3, A4}; // Pins für die Buttons
-const int servoPin [] = {3, 5, 9, 10, 11}; // Pin für den Servo
+const int buttonPins[] = {A0, A1, A2, A3, A4, A5, 11, 12, 13}; // Pins für die Buttons
+const int servoPin [] = {2, 3, 4, 5, 6, 7, 8, 9, 10}; // Pin für den Servo
 const int numButtons = sizeof(buttonPins) / sizeof(int);
 int lastButtonStates[numButtons]; // Zustände der Buttons
 Servo servos [numButtons]; // Servo-Objekte
-int anglePressed = 0;
-int angleReleased = 90;
+int anglePressed = 40;
+int angleReleased = 0;
 
 void setup()
 {
@@ -44,4 +44,5 @@ void loop()
       lastButtonStates[i] = currentButtonState;
     }
   }
+  delay(10);
 }
